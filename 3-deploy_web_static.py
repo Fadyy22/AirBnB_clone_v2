@@ -7,6 +7,8 @@ import os
 
 env.hosts = ["34.239.255.114", "3.83.253.172"]
 
+env.archive_path = ""
+
 
 def do_pack():
     """packs web_static folder to .trg"""
@@ -17,8 +19,12 @@ def do_pack():
     try:
         if not os.path.exists("./versions"):
             local("mkdir versions")
-        local(f"tar -czvf versions/{archive}.tgz {path}")
-        return f"versions/{archive}.tgz"
+        if os.path.exists(env.archive_path):
+            pass
+        else:
+            local(f"tar -czvf versions/{archive}.tgz {path}")
+            env.archive_path = f"versions/{archive}.tgz"
+        return env.archive_path
     except Exception:
         return None
 
