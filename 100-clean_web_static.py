@@ -10,8 +10,8 @@ def do_clean(number=0):
 
     if number == 0 or number == 1:
         number = 2
-    elif number == 2:
-        number = 3
+    else:
+        number += 1
 
     cmd = f"ls -t | tail -n +{number} | xargs rm -rf"
     local(f"cd versions/ ; {cmd}")
