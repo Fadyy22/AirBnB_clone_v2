@@ -14,6 +14,7 @@ def close_session(exception):
 
 @app.route("/states_list", strict_slashes=False)
 def list_states():
+    """renders all states in html"""
     states = storage.all(State)
     render_states = {}
     for key, value in states.items():
