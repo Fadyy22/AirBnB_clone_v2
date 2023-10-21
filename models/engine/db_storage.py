@@ -14,20 +14,23 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 class DBStorage:
     """clasee for the New engine"""
+
     __engine = None
     __session = None
 
     def __init__(self):
         """initializing a new instance"""
 
-        env = os.environ.get('HBNB_ENV')
-        user = os.environ.get('HBNB_MYSQL_USER')
-        password = os.environ.get('HBNB_MYSQL_PWD')
-        host = os.environ.get('HBNB_MYSQL_HOST')
-        database = os.environ.get('HBNB_MYSQL_DB')
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
-            user, password, host, database), pool_pre_ping=True)
-        if env == 'test':
+        env = os.environ.get("HBNB_ENV")
+        user = os.environ.get("HBNB_MYSQL_USER")
+        password = os.environ.get("HBNB_MYSQL_PWD")
+        host = os.environ.get("HBNB_MYSQL_HOST")
+        db = os.environ.get("HBNB_MYSQL_DB")
+        self.__engine = create_engine(
+            "mysql+mysqldb://{}:{}@{}/{}".format(user, password, host, db),
+            pool_pre_ping=True,
+        )
+        if env == "test":
             metadata = MetaData()
             metadata.reflect(bind=self.__engine)
             metadata.drop_all(bind=self.__engine)
@@ -66,3 +69,7 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(Session)()
+
+    def close(self):
+        """calls remove() method on self.__session"""
+        self.__session.remove()
