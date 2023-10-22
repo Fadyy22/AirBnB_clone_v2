@@ -16,10 +16,8 @@ def close_session(exception):
 def list_states():
     """renders all states in html"""
     states = storage.all(State)
-    render_states = {}
-    for key, value in states.items():
-        render_states[value.id] = value.name
-    return render_template("7-states_list.html", states=render_states)
+
+    return render_template("7-states_list.html", states=states.values())
 
 
 if __name__ == "__main__":

@@ -18,17 +18,9 @@ def list_states(id=None):
     """renders all states in html"""
     states = storage.all(State)
     amenities = storage.all(Amenity)
-    render_states = []
-    render_amenities = []
 
-    for state in states.values():
-        render_states.append(state)
-
-    for amenity in amenities.values():
-        render_amenities.append(amenity)
-
-    return render_template("10-hbnb_filters.html", states=render_states,
-                           amenities=render_amenities)
+    return render_template("10-hbnb_filters.html", states=states.values(),
+                           amenities=amenities.values())
 
 
 if __name__ == "__main__":

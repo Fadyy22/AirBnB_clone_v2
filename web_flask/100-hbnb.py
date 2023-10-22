@@ -3,6 +3,8 @@
 from flask import Flask, render_template
 from models import storage
 from models.state import State
+from models.amenity import Amenity
+from models.place import Place
 
 app = Flask(__name__)
 
@@ -12,12 +14,16 @@ def close_session(exception):
     storage.close()
 
 
-@app.route("/cities_by_states", strict_slashes=False)
-def list_states():
+@app.route("/hbnb", strict_slashes=False)
+def list_states(id=None):
     """renders all states in html"""
     states = storage.all(State)
+    amenities = storage.all(Amenity)
+    places = storage.all(Place)
 
-    return render_template("8-cities_by_states.html", states=states.values())
+    return render_template("100-hbnb.html", states=states.values(),
+                           amenities=amenities.values(),
+                           places=places.values())
 
 
 if __name__ == "__main__":
