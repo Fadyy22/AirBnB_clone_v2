@@ -17,7 +17,6 @@ def close_session(exception):
 def list_states(id=None):
     """renders all states in html"""
     states = storage.all(State)
-    print(id)
     render_states = []
 
     if id is None:
